@@ -1,0 +1,40 @@
+#默认使用配置
+spring:
+  profiles:
+    active: dev
+
+#公共配置与profiles选择无关
+mybatis:
+  typeAliasesPackage: jzt.erp.sale.model
+  mapperLocations: classpath:Mapper/*.xml
+
+
+---
+
+#开发配置
+spring:
+  profiles: dev
+
+    # datasource:
+    #url: jdbc:mysql://10.4.7.26:3306/nnitsm?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    #username: jzt
+    #password: jztmysql
+  #driver-class-name: com.mysql.jdbc.Driver
+
+  #datasource:
+    #url: jdbc:oracle:thin:@//10.3.5.229:1521/orcl?characterEncoding=UTF-8
+    #username: syerp
+    #password: syerp
+    #driver-class-name: oracle.jdbc.driver.OracleDriver
+
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/nnitsm?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
+    username: jzt
+    password: jztmysql
+    driver-class-name: com.mysql.jdbc.Driver
+
+  transaction:
+    rollback-on-commit-failure: true
+     # 使用druid数据源
+     #    type: com.alibaba.druid.pool.DruidDataSource
