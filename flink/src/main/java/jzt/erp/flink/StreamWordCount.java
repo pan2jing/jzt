@@ -18,8 +18,14 @@ public class StreamWordCount {
     public static void main(String[] args) throws Exception{
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
+        //StreamExecutionEnvironment.createLocalEnvironment();
+
+        // 获取集群执行环境
+        StreamExecutionEnvironment env2 = StreamExecutionEnvironment.createRemoteEnvironment("localhost",6123);
+
         //设置并行度
         //env.setParallelism(8);
+        //env.disableOperatorChaining();//所有步骤,不参与到任务链的合并中了
 
         //从文件读取,流处理
         //String path ="C:\\Users\\panjj\\IdeaProjects\\jzt\\flink\\src\\main\\resources\\Hello.txt";
@@ -41,9 +47,13 @@ public class StreamWordCount {
 
         DataStream<Tuple2<String, Integer>> resultstream = dataStream.flatMap(new flinkmain.myFlatmapper())
                 .keyBy(0)
-                .sum(1);
+                .sum(1).setParallelism(2).slotSharingGroup("red")
+                //.shuffle()//重分区
+                //.disableChaining()//不参与到任务链的合并中了
+                //.startNewChain()//后面又可以合并了
+                ;
 
-        resultstream.print("streamname");
+        resultstream.print("streamname").setParallelism(1);
 
         //执行流任务
         env.execute();
