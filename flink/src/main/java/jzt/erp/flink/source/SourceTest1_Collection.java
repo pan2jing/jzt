@@ -1,4 +1,4 @@
-package jzt.erp.flink.jzt.erp.flink.source;
+package jzt.erp.flink.source;
 
 import jzt.erp.flink.beans.SensorReading;
 import org.apache.flink.streaming.api.datastream.DataStream;
