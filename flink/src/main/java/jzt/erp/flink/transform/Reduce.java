@@ -30,7 +30,8 @@ public class Reduce {
         }); 
         KeyedStream<SensorReading, Tuple> keyedStream = map.keyBy("id");
 
-        /*SingleOutputStreamOperator<SensorReading> temperature = keyedStream.reduce(new ReduceFunction<SensorReading>() {
+        /* 取当前为止的最大值
+        SingleOutputStreamOperator<SensorReading> temperature = keyedStream.reduce(new ReduceFunction<SensorReading>() {
             @Override
             public SensorReading reduce(SensorReading oldvalue, SensorReading currvalue) throws Exception {
                 return new SensorReading(currvalue.getId(),currvalue.getTimestamp(), Math.max(oldvalue.getTemperature(), currvalue.getTemperature()));
@@ -42,6 +43,7 @@ public class Reduce {
             return new SensorReading(currvalue.getId(),currvalue.getTimestamp(), Math.max(oldvalue.getTemperature(), currvalue.getTemperature()));
         });*/
 
+        //累加
         SingleOutputStreamOperator<SensorReading> temperature = keyedStream.reduce((oldvalue,currvalue) ->{
             return new SensorReading(currvalue.getId(),currvalue.getTimestamp(),  (oldvalue.getTemperature()+currvalue.getTemperature()));
         });
