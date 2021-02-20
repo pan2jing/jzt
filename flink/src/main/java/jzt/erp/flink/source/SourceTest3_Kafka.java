@@ -27,18 +27,25 @@ public class SourceTest3_Kafka {
         //env.setParallelism(8);默认核心数
         //1从kafka读取数据
         Properties pro = new Properties();
-        pro.setProperty("bootstrap.servers","localhost:9092");
-        //pro.setProperty("group.id", "1");
+        //pro.setProperty("bootstrap.servers","localhost:9092");
+
+        pro.setProperty("bootstrap.servers","10.4.10.54:9092");
+        //pro.setProperty("bootstrap.servers","10.4.10.82:9092");
+        //pro.setProperty("bootstrap.servers","10.4.10.83:9092");
+        pro.setProperty("group.id", "pjj_consumer_test1");
+
 
          //  ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic sensor
 
         FlinkKafkaConsumer011<String> consumer = new FlinkKafkaConsumer011<>(
-                "sensor", new SimpleStringSchema(), pro);
+                "pjjTestTopic", new SimpleStringSchema(), pro);
         //设置只读取最新数据
         consumer.setStartFromLatest();  //这里不设好像读不到数据
 
+
         //添加kafka为数据源
         DataStream<String> source = env.addSource(consumer);
+        //source.print("kafka data");
 
         DataStream<Tuple2<String, Integer>> counts = source.flatMap(new FlatMapFunction<String, Tuple2<String, Integer>>() {
             @Override
@@ -54,7 +61,7 @@ public class SourceTest3_Kafka {
                 //求和
                 .sum(1);
         counts.print("TestKafka");
-
+         /**/
         env.execute("my jobname");
     }
 }

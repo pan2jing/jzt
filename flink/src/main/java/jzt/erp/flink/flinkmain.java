@@ -25,7 +25,7 @@ public class flinkmain {
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
 
         //从文件读取,批处理
-        String path ="C:\\Users\\panjj\\IdeaProjects\\jzt\\flink\\src\\main\\resources\\Hello.txt";
+        String path ="C:\\Users\\panjj\\IdeaProjects\\jztflink\\flink\\src\\main\\resources\\Hello.txt";
         DataSource<String> dataSource = env.readTextFile(path);
         DataSet<Tuple2<String, Integer>> sum = dataSource.flatMap(new myFlatmapper())
                 .groupBy(0)

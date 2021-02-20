@@ -13,12 +13,18 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
 
     compile 'com.oracle.database.jdbc:ojdbc8:21.1.0.0'
     compile 'com.oracle.database.nls:orai18n:21.1.0.0'
+
+    compileOnly group: 'org.apache.flink', name: 'flink-streaming-java_2.12', version: '1.10.1'
+    implementation group: 'org.apache.flink', name: 'flink-java', version: '1.10.1'
+    implementation group: 'org.apache.flink', name: 'flink-connector-kafka-0.11_2.12', version: '1.10.1'
+
 
     runtimeOnly 'mysql:mysql-connector-java'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
